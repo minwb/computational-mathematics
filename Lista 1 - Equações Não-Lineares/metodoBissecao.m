@@ -1,34 +1,28 @@
 function metodoBissecao
     clc; clear; close all;
 
-    % 1. Configuração do Problema
-    f = @(x) x.^3 + 2.*x.^2 - 2; % Coloque a função do exercício aqui
+    f = @(x) x.^3 + 2.*x.^2 - 2; 
     xl = 0.0;
     xu = 1.0;
     tol = 1e-5;
     max_iter = 1000;
 
-    % 2. Chama o Método Numérico (BISSECÇÃO)
     [xr, iter, histXr] = calculaMetodoBissecao(f, xl, xu, tol, max_iter);
 
-    % 3. Saída no Terminal (Requisito: 5 casas decimais, sem tolerância)
     printf('Raiz convergida: %.5f\n', xr);
     printf('Iterações: %d\n', iter);
     printf('f(raiz): %.5f\n', f(xr));
 
-    % 4. Gera os Gráficos Solicitados (Mesmo padrão do professor)
-    plotaConvergenciaFx(histXr, f);       % Figure 1
-    plotaConvergenciaX(histXr);           % Figure 2
-    plotaAnimacaoCorrigida(f, xl, xu, histXr); % Figure 3
+    plotaConvergenciaFx(histXr, f);      
+    plotaConvergenciaX(histXr);         
+    plotaAnimacaoCorrigida(f, xl, xu, histXr); 
 endfunction
 
-% --- MÉTODO NUMÉRICO (BISSECÇÃO) ---
 function [xr, iteracoes, histXr] = calculaMetodoBissecao(f, xl, xu, tol, max_iter)
     xr = NaN;
     iteracoes = 0;
     histXr = [];
 
-    % Validação de Bolzano
     if f(xl) * f(xu) > 0
         printf('Erro: Intervalo inválido (sinais iguais).\n');
         return;
@@ -40,27 +34,24 @@ function [xr, iteracoes, histXr] = calculaMetodoBissecao(f, xl, xu, tol, max_ite
         xrNovo = (xl + xu) / 2;
         histXr = [histXr, xrNovo];
 
-        % Cálculo do erro
         if i > 1
             erro = abs(xrNovo - xrAnt);
         else
             erro = abs(xrNovo - xl);
         end
 
-        % Critério de Parada
         if erro <= tol
             xr = xrNovo;
             iteracoes = i;
             return;
         end
 
-        % Decisão do Intervalo
         if f(xl) * f(xrNovo) < 0
-            xu = xrNovo; % Raiz está na esquerda
+            xu = xrNovo; 
         elseif f(xl) * f(xrNovo) > 0
-            xl = xrNovo; % Raiz está na direita
+            xl = xrNovo; 
         else
-            xr = xrNovo; % Achou exato (sorte)
+            xr = xrNovo; 
             iteracoes = i;
             return;
         endif
@@ -70,7 +61,6 @@ function [xr, iteracoes, histXr] = calculaMetodoBissecao(f, xl, xu, tol, max_ite
     iteracoes = max_iter;
 endfunction
 
-% --- GRÁFICO 1: CONVERGÊNCIA DE F(X) ---
 function plotaConvergenciaFx(histXr, f)
     figure(1);
 
@@ -80,11 +70,10 @@ function plotaConvergenciaFx(histXr, f)
 
     title('Gráfico de convergência de f(x)');
     xlabel('Iterações');
-    ylabel('f(x)'); % Requisito do professor
+    ylabel('f(x)'); 
     grid on;
 endfunction
 
-% --- GRÁFICO 2: CONVERGÊNCIA DE X ---
 function plotaConvergenciaX(histXr)
     figure(2);
 
@@ -96,7 +85,6 @@ function plotaConvergenciaX(histXr)
     grid on;
 endfunction
 
-% --- GRÁFICO 3: ANIMAÇÃO ---
 function plotaAnimacaoCorrigida(f, xl_ini, xu_ini, histXr)
     figure(3);
     x_plot = linspace(xl_ini - 0.5, xu_ini + 0.5, 100);
@@ -110,7 +98,7 @@ function plotaAnimacaoCorrigida(f, xl_ini, xu_ini, histXr)
         hold on;
         p2 = plot(xr_atual, f(xr_atual), 'bo', 'MarkerSize', 8, 'MarkerFaceColor', 'b');
 
-        title(sprintf('Iterações: %d | Raiz: %.5f', i, xr_atual));
+        title(sprintf('Iteracoes: %d | Raiz: %.5f', i, xr_atual));
         xlabel('x');
         ylabel('f(x)');
         legend([p1, p2], {'f(x)', 'Posição estimada da raiz de f(x)'}, 'Location', 'northeast');
