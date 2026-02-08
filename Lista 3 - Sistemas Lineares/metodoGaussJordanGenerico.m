@@ -1,41 +1,39 @@
-function Lista3_Exercicio11()
-    clc;
-    A = [-1,  1, -3;
-          3, -2,  8;
-          2, -2,  5];
-    b = [-4;
-         14;
-          7];
+function metodoGaussJordanGenerico
+    clc; clear;
+
+    N = 10;
+    A = randi(N, N, N); % randi(VALOR_MAXIMO, LINHAS, COLUNAS)
+    b = randi(N, N, 1);
 
     Aa = [A b];
-
     x = gaussJordan(Aa);
 
     disp("A solução para o sistema");
+
     [linhas, colunas] = size(A);
 
     for i = 1:linhas
-        printf("%.2fx1 ", A(i, 1));
-        for j = 2:colunas
-            valor = A(i, j);
-            if valor >= 0
-                printf("+ %.2fx%d ", valor, j);
-            else
-                printf("- %.2fx%d ", abs(valor), j);
-            end
+      printf("%.2fx1 ", A(i, 1));
+      for j = 2:colunas
+        valor = A(i, j);
+        if valor >= 0
+          printf("+ %.2fx%d ", valor, j);
+        else
+          printf("- %.2fx%d ", abs(valor), j);
         end
-        printf("= %.2f\n", b(i));
-    end
+      endfor
+      printf("= %.2f\n", b(i));
+    endfor
 
-    disp("é");
+  disp("é");
 
-    for i = 1:length(x)
-        printf("x%d = %.6f\n", i, x(i));
-    end
+  for i = 1:length(x)
+      printf("x%d = %.6f\n", i, x(i));
+  end
 
-    b_calculado = A * x;
-    erro = max(abs(b_calculado - b));
-    printf("prova real: %.10f\n", erro);
+  b_calculado = A * x;
+  erro = max(abs(b_calculado - b));
+  printf("prova: %.10f\n", erro);
 endfunction
 
 function Aa = pivotamentoParcial(Aa, iter)
@@ -67,3 +65,4 @@ function x = gaussJordan(Aa)
     endfor
     x = Aa(:, end);
 endfunction
+

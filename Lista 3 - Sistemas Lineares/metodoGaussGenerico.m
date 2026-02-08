@@ -1,33 +1,29 @@
-function Lista3_Exercicio4()
-  clc;
+function metodoGaussGenerico
+    clc;
 
-  A = [3, 5, -5;
-      -4, 8, -5;
-       2, -5, 6]
-  b = [21;
-       1;
-       -16]
+    N = 10;
+    A = randi(N, N, N); % randi(VALOR_MAXIMO, LINHAS, COLUNAS)
+    b = randi(N, N, 1);
 
-  Aa = [A b]
+    Aa = [A b];
+    x = eliminacaoGaussiana(Aa);
 
-  x = eliminacaoGaussiana(Aa)
+    disp("A solução para o sistema");
 
-  disp("A solução para o sistema");
-  [linhas, colunas] = size(A);
+    [linhas, colunas] = size(A);
 
-  for i = 1:linhas
+    for i = 1:linhas
       printf("%.2fx1 ", A(i, 1));
-
       for j = 2:colunas
-          valor = A(i, j);
-          if valor >= 0
-              printf("+ %.2fx%d ", valor, j);
-          else
-              printf("- %.2fx%d ", abs(valor), j);
-          end
-      end
+        valor = A(i, j);
+        if valor >= 0
+          printf("+ %.2fx%d ", valor, j);
+        else
+          printf("- %.2fx%d ", abs(valor), j);
+        end
+      endfor
       printf("= %.2f\n", b(i));
-  end
+    endfor
 
   disp("é");
 
@@ -35,9 +31,9 @@ function Lista3_Exercicio4()
       printf("x%d = %.6f\n", i, x(i));
   end
 
-  b_calc = A * x;
-  erro = max(abs(b_calc - b));
-  printf("prova: %.10f", erro);
+  b_calculado = A * x;
+  erro = max(abs(b_calculado - b));
+  printf("prova: %.10f\n", erro);
 endfunction
 
 function Aa = pivotamentoParcial(Aa, iter)
@@ -75,5 +71,4 @@ function x = eliminacaoGaussiana(Aa)
         x(i) = (Aa(i, end) - termos) / Aa(i, i);
     endfor
 endfunction
-
 
